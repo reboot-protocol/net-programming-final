@@ -13,7 +13,7 @@ event_finished_game = threading.Event()
 def finished_game(player_list,room_list,msg_queue):
     while (1):
         for msg in msg_queue.finised_queue :
-            player_list.add_finised_game(msg)
+            player_list.finised_game(msg)
 class UniqueRandom:
     def __init__(self, start, end):
         self.pool = list(range(start, end))
@@ -138,7 +138,7 @@ def game_room_handle(roomid,message_queue,sockfd_list):
                     message_queue.remove_msg(msge.msg,msge.socket,roomid)
     game.time_up()
     game.announce_results()
-    event_finished_game.set()
+    message_queue.add_finished_msg(roomid)
 
 
 class player():
