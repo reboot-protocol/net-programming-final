@@ -27,7 +27,7 @@ class player_progess():
     def __init__(self,fd):
         self.socket= fd
         self.count= 0
-        self.time = 0
+        self.time = 30
     def increment(self):
         self.count = self.count + 1
     def add_time(self,time_finished):
@@ -117,10 +117,12 @@ def game_room_handle(roomid,message_queue,sockfd_list):
         if remaining <= 0:
             print("Time's up!")
             break
+        
         for msge in message_queue.queue:
             if msge.id == roomid:
                 if is_convertible_to_int(msge.msg) == False:
                     msge.socket.sendall(b"your result is not valid, pls go with an interger")
+                    message_queue.remove_msg(msge.msg,msge.socket,roomid)
                     continue
                 data = int(msge.msg)
                 if data < result:
